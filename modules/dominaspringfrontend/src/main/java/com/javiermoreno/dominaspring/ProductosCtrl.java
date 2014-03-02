@@ -23,27 +23,27 @@ import com.javiermoreno.dominaspring.services.GestionProductosServ;
 @RequestMapping("/productos")
 public class ProductosCtrl {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(ProductosCtrl.class);
-	
-	@Inject
-	private GestionProductosServ servicio;
+    private static final Logger logger = LoggerFactory
+            .getLogger(ProductosCtrl.class);
 
-	@RequestMapping(value = "/{codigo}", 
-			method = RequestMethod.GET, produces = {"application/xml", "application/json" })
-	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody ProductoFinancieroDTO getProductoFinancieroPorCodigo(@PathVariable String codigo) {
-		ProductoFinanciero productoFinanciero = servicio.obtenerProducto(codigo);
-		return new ProductoFinancieroDTO(productoFinanciero);
-	}
-	
-	@RequestMapping(value = "/{codigo}", method = RequestMethod.GET)  
-    public String verProductoFinancieroPorCodigo(Model model, @PathVariable String codigo)  {  
-           
-     model.addAttribute("pf", getProductoFinancieroPorCodigo(codigo));  
-  
-     return "productofinanciero";  
-    }  	
+    @Inject
+    private GestionProductosServ servicio;                             
 
+    @RequestMapping(value = "/{codigo}",
+            method = RequestMethod.GET, produces = {"application/xml",  "application/json"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody                            
+    ProductoFinancieroDTO getProductoFinancieroPorCodigo(@PathVariable String codigo) {
+        ProductoFinanciero productoFinanciero = servicio.obtenerProducto(codigo);
+        return new ProductoFinancieroDTO(productoFinanciero);
+    }
+
+    @RequestMapping(value = "/{codigo}", method = RequestMethod.GET)
+    public String verProductoFinancieroPorCodigo(Model model, @PathVariable String codigo) {
+
+        model.addAttribute("pf", getProductoFinancieroPorCodigo(codigo));
+
+        return "productofinanciero";
+    }
 
 }

@@ -8,7 +8,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 
-import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Consulta de saldo</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .error {
+                background-color : red;
+                color : yellow;
+                font-weight : bold;
+            }
+            
+            .ok {
+                background-color : green;
+                color : white;                
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Consulta de saldo</h1>
+        
+        <form>
+            <label for="codigo">Código</label>:
+            <input type="text" id="codigo" name="codigo"/>
+            <input type="submit" value="Aceptar" />
+        </form>
+        
+        <div id="output"></div>
+        
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script>
+            function mostrarMensaje(mensaje, className) {
+                $('#output')
+                        .removeClass()
+                        .addClass(className)
+                        .text(mensaje);
+            }
+            
+            function realizarConsulta(form) {
+                var url = 'rest/productos/{codigo}.json';
+                var codigo = form.codigo.value;
+                url = url.replace('{codigo}', codigo);
+                $.getJSON(url)
+                 .done(function(producto) {
+                     var mensaje = 'El saldo del producto {producto} es de {saldo} euros.';
+                     mensaje = mensaje.replace('{producto}', producto.codigo).replace('{saldo}', producto.saldo);
+                     mostrarMensaje(mensaje, 'ok');
+                }).error(function() {
+                    mostrarMensaje('Error.', 'error');
+                });
+            }
+            
+            $(document).ready(function() {
+               $('form').submit(function() {
+                  realizarConsulta(this); 
+                  return false;
+               });                
+            });
+        </script>
+        
+    </body>
+</html>
