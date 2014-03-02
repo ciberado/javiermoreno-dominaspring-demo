@@ -179,32 +179,32 @@
                     </excludes>
                 </configuration>
             </plugin>                        
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.3</version>
+            </plugin>   
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
                     <linkXRef>false</linkXRef>
-                    <targetJdk>1.6</targetJdk>
-                    <rulesets>
-                        <ruleset>/rulesets/basic.xml</ruleset>
-                    </rulesets>                
+                    <targetJdk>1.7</targetJdk>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>pmd</goal>
+                        </goals>
+                    </execution>
+                </executions>                
             </plugin>
                                     
         </plugins>
     </build>
-    
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-                <version>2.3</version>
-            </plugin>            
-        </plugins>
-    </reporting> 
+   
        
     <profiles>
         <profile>
