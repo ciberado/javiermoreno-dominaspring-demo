@@ -8,10 +8,5 @@
             <goals>
                 <goal>install</goal>
             </goals>
-            <properties>
-                <skipIntegrationTests>true</skipIntegrationTests>
-                <skipMetrics>true</skipMetrics>
-                <skipTests>true</skipTests>
-            </properties>
         </action>
     </actions>

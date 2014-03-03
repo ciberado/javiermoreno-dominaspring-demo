@@ -15,19 +15,18 @@ import javax.persistence.InheritanceType;
  INSERT INTO "APP"."PRODUCTOFINANCIERO" (DTYPE,CODIGO,INTERESANUAL,SALDO,PENALIZADO) VALUES ('PF','1000',0.03,1000.0,null);
  INSERT INTO "APP"."PRODUCTOFINANCIERO" (DTYPE,CODIGO,INTERESANUAL,SALDO,PENALIZADO) VALUES ('CC','2000',0.03,1000.0,null);
  INSERT INTO "APP"."PRODUCTOFINANCIERO" (DTYPE,CODIGO,INTERESANUAL,SALDO,PENALIZADO) VALUES ('CA','3000',0.05,1000.0,false);
-*/
-
+ */
 @Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("PF")
-public class ProductoFinanciero  implements Comparable<ProductoFinanciero>, Serializable {
+public class ProductoFinanciero implements Comparable<ProductoFinanciero>, Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	private static final BigDecimal NUMERO_MESES = new BigDecimal("12");
-	
-	@Id
-	private String codigo;
+    private static final long serialVersionUID = 1L;
+
+    private static final BigDecimal NUMERO_MESES = new BigDecimal("12");
+
+    @Id
+    private String codigo;
     private BigDecimal saldo;
     private BigDecimal interesAnual;
 
@@ -41,23 +40,22 @@ public class ProductoFinanciero  implements Comparable<ProductoFinanciero>, Seri
     }
 
     public void ingresar(BigDecimal importe) {
-		if (importe.compareTo(BigDecimal.ZERO) < 0) {
-			throw new IllegalArgumentException(MessageFormat.format("Importe {0} debería de ser superior a 0.", importe));
-		}
+        if (importe.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException(MessageFormat.format("Importe {0} debería de ser superior a 0.", importe));
+        }
         saldo = saldo.add(importe);
     }
 
     public void reintegrar(BigDecimal importe) {
-		if (importe.compareTo(BigDecimal.ZERO) < 0) {
-			throw new IllegalArgumentException(MessageFormat.format("Importe {0} debería de ser superior a 0.", importe));
-		}
+        if (importe.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException(MessageFormat.format("Importe {0} debería de ser superior a 0.", importe));
+        }
         saldo = saldo.subtract(importe);
     }
-    
+
     public void actualizarInteresMensual() {
-    	saldo = saldo.add(saldo.multiply(interesAnual.divide(NUMERO_MESES)));    	
+        saldo = saldo.add(saldo.multiply(interesAnual.divide(NUMERO_MESES)));
     }
-    
 
     public String getCodigo() {
         return codigo;
@@ -67,59 +65,54 @@ public class ProductoFinanciero  implements Comparable<ProductoFinanciero>, Seri
         this.codigo = codigo;
     }
 
+    public BigDecimal getSaldo() {
+        return saldo;
+    }
 
-	public BigDecimal getSaldo() {
-		return saldo;
-	}
+    public void setSaldo(BigDecimal saldo) {
+        this.saldo = saldo;
+    }
 
+    public BigDecimal getInteresAnual() {
+        return interesAnual;
+    }
 
-	public void setSaldo(BigDecimal saldo) {
-		this.saldo = saldo;
-	}
+    public void setInteresAnual(BigDecimal interesAnual) {
+        this.interesAnual = interesAnual;
+    }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+        return result;
+    }
 
-	public BigDecimal getInteresAnual() {
-		return interesAnual;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ProductoFinanciero other = (ProductoFinanciero) obj;
+        if (codigo == null) {
+            if (other.codigo != null) {
+                return false;
+            }
+        } else if (!codigo.equals(other.codigo)) {
+            return false;
+        }
+        return true;
+    }
 
+    public int compareTo(ProductoFinanciero o) {
+        return this.codigo.compareTo(o.codigo);
+    }
 
-	public void setInteresAnual(BigDecimal interesAnual) {
-		this.interesAnual = interesAnual;
-	}
-
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-		return result;
-	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ProductoFinanciero other = (ProductoFinanciero) obj;
-		if (codigo == null) {
-			if (other.codigo != null)
-				return false;
-		} else if (!codigo.equals(other.codigo))
-			return false;
-		return true;
-	}
-
-
-	public int compareTo(ProductoFinanciero o) {		
-		return this.codigo.compareTo(o.codigo);
-	}
-
-    
-    
-    
 }
